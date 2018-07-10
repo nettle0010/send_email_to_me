@@ -28,7 +28,7 @@ def get_attach_file_from_s3(s3, bucket_name, prefix_target):
     return attach_file, attach_file_name
 
 
-def make_mime(mail_from_addr, mail_subject, mail_body, attach_file, attach_file_name):
+def make_mime(mail_from_addr, mail_subject, mail_body, attach_file=None, attach_file_name=''):
     msg = MIMEMultipart()
     msg['From'] = mail_from_addr
     msg['Subject'] = mail_subject

@@ -44,6 +44,12 @@ class TestAwsUtil(unittest.TestCase):
         self.assertEqual(attach_file_name, 'test.jpg')
 
     def test_make_mime(self):
+        msg = aws_util.make_mime('test@example.com',
+                                 'test_subject',
+                                 'test_body')
+        self.assertTrue(msg.is_multipart())
+        self.assertEqual(msg['From'], 'test@example.com')
+        self.assertEqual(msg['Subject'], 'test_subject')
         data = open('tests/test.jpg', 'rb')
         msg = aws_util.make_mime('test@example.com',
                                  'test_subject',
@@ -51,9 +57,6 @@ class TestAwsUtil(unittest.TestCase):
                                  data.read(),
                                  'test.jpg')
         data.close()
-        self.assertTrue(msg.is_multipart())
-        self.assertEqual(msg['From'], 'test@example.com')
-        self.assertEqual(msg['Subject'], 'test_subject')
         attach_file = None
         attach_file_name = ''
         for part in msg.walk():
